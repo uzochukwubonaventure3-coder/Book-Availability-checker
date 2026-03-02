@@ -1,28 +1,984 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="Admin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - UNN BookStore</title>
+    <link rel="stylesheet" href="Admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add this to your admin.html head section -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-book-open"></i>
+            <h2>BookStore Admin</h2>
+            <div class="admin-info">
+                <i class="fas fa-user-shield"></i>
+                <span id="adminUsername">Administrator</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="menu-item" data-section="books">
+                <i class="fas fa-book"></i>
+                <span>All Books</span>
+                <span class="badge" id="bookCountBadge">0</span>
+            </a>
+            <a href="#" class="menu-item" data-section="users">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+                <span class="badge" id="userCountBadge">0</span>
+            </a>
+            <a href="#" class="menu-item" data-section="wishlist">
+                <i class="fas fa-heart"></i>
+                <span>Wishlists</span>
+                <span class="badge" id="wishlistBadge">0</span>
+            </a>
+            <a href="#" class="menu-item" data-section="reports">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            <a href="#" class="menu-item" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
 
-  <form id="addBookForm">
-    <input type="text" id="title" placeholder="Course Title" required>
-    <input type="text" placeholder="Course Code">
-    <input type="text" id="author" placeholder="Author" required>
-    <button type="submit">Add Book</button>
-  </form>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="top-nav-left">
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="top-nav-right">
+                <button id="addBookBtn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add New Book
+                </button>
+                <div class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="currentAdmin">Admin</span>
+                </div>
+            </div>
+        </div>
 
-  <h2>All Books</h2>
-  <table id="bookTable">
-    <thead>
-      <tr><th>Title</th><th>Author</th><th>ISBN</th><th>Action</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
+                    <p>Welcome to UNN BookStore Admin Panel</p>
+                </div>
 
-  <script src="Admin.js"></script>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Total Users</p>
+                            <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalBooks">0</h3>
+                            <p>Total Books</p>
+                            <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalCopies">0</h3>
+                            <p>Total Copies</p>
+                            <span class="stat-change"><i class="fas fa-minus"></i> 0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalValue">₦0</h3>
+                            <p>Total Value</p>
+                            <span class="stat-change positive"><i class="fas fa-arrow-up"></i> 0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <div class="activity-content">
+                                <p>Loading activities...</p>
+                                <span class="activity-time">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Books Section -->
+            <section id="booksSection" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-book"></i> Book Management</h2>
+                    <p>Manage all books in the system</p>
+                </div>
+
+                <div class="filters-bar">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="bookSearch" placeholder="Search books by title, author, or course code...">
+                    </div>
+                    <div class="filter-options">
+                        <select id="levelFilter">
+                            <option value="">All Levels</option>
+                            <option value="100">100 Level</option>
+                            <option value="200">200 Level</option>
+                            <option value="300">300 Level</option>
+                            <option value="400">400 Level</option>
+                        </select>
+                        <select id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="in-stock">In Stock</option>
+                            <option value="low-stock">Low Stock</option>
+                            <option value="out-of-stock">Out of Stock</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="view-controls">
+                    <div class="view-options">
+                        <button class="view-btn active" data-view="grid" title="Grid View">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-btn" data-view="list" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    <div class="sort-options">
+                        <span>Sort by:</span>
+                        <select id="sortFilter">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="title">Title A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="bookList" class="books-container grid-view">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading books...</p>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button class="pagination-btn prev-btn" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <div class="page-numbers" id="pageNumbers"></div>
+                    <button class="pagination-btn next-btn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="page-info">
+                        Showing <span id="startIndex">1</span>-<span id="endIndex">12</span> of <span id="totalItems">0</span> books
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="usersSection" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> User Management</h2>
+                    <p>Manage all registered users</p>
+                </div>
+
+                <div class="filters-bar">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="userSearch" placeholder="Search users by name or email...">
+                    </div>
+                    <div class="filter-options">
+                        <select id="userRoleFilter">
+                            <option value="">All Roles</option>
+                            <option value="student">Students</option>
+                            <option value="admin">Admins</option>
+                        </select>
+                        <select id="userStatusFilter">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="users-container">
+                    <div class="table-responsive">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Student ID</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersList">
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <div class="loading-state">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <p>Loading users...</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pagination" id="userPagination"></div>
+            </section>
+
+            <!-- Wishlist Section -->
+            <section id="wishlistSection" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-heart"></i> Wishlist Analytics</h2>
+                    <p>View and analyze user wishlists</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalWishlists">0</h3>
+                            <p>Total Wishlists</p>
+                            <span class="stat-change positive" id="wishlistChange">
+                                <i class="fas fa-arrow-up"></i> 0%
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="uniqueWishlisted">0</h3>
+                            <p>Unique Books</p>
+                            <span class="stat-change" id="uniqueBookChange">
+                                <i class="fas fa-minus"></i> 0%
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activeWishlistUsers">0</h3>
+                            <p>Active Users</p>
+                            <span class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 0%
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="avgWishlistPerUser">0.0</h3>
+                            <p>Avg per User</p>
+                            <span class="stat-change">
+                                <i class="fas fa-minus"></i> 0%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-container">
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-chart-line"></i> Most Wishlisted Books</h3>
+                        <div class="top-books-list" id="topWishlistedBooks">
+                            <div class="empty-state">
+                                <p>No wishlist data available</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3><i class="fas fa-user-friends"></i> Most Active Users</h3>
+                        <div class="top-users-list" id="topWishlistUsers">
+                            <div class="empty-state">
+                                <p>No user data available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wishlist-details">
+                    <h3><i class="fas fa-list"></i> Recent Wishlist Activity</h3>
+                    <div class="table-responsive">
+                        <table class="wishlist-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Book</th>
+                                    <th>Course Code</th>
+                                    <th>Added On</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentWishlists">
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div class="loading-state">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <p>Loading wishlists...</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reportsSection" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Reports & Analytics</h2>
+                    <p>Generate system reports and analytics</p>
+                </div>
+
+                <div class="report-controls">
+                    <div class="date-range-picker">
+                        <h4><i class="fas fa-calendar-alt"></i> Select Date Range</h4>
+                        <div class="date-inputs">
+                            <div class="date-input">
+                                <label>From:</label>
+                                <input type="date" id="reportStartDate" value="2025-01-01">
+                            </div>
+                            <div class="date-input">
+                                <label>To:</label>
+                                <input type="date" id="reportEndDate" value="2025-12-31">
+                            </div>
+                            <button class="btn btn-primary" id="generateReportBtn">
+                                <i class="fas fa-chart-bar"></i> Generate Report
+                            </button>
+                            <button class="btn btn-secondary" id="exportReportBtn">
+                                <i class="fas fa-download"></i> Export as PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3><i class="fas fa-book"></i> Books Report</h3>
+                        <div class="report-content" id="booksReport">
+                            <div class="empty-state">
+                                <p>Generate report to view data</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3><i class="fas fa-users"></i> Users Report</h3>
+                        <div class="report-content" id="usersReport">
+                            <div class="empty-state">
+                                <p>Generate report to view data</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3><i class="fas fa-heart"></i> Wishlist Report</h3>
+                        <div class="report-content" id="wishlistReport">
+                            <div class="empty-state">
+                                <p>Generate report to view data</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-card">
+                        <h3><i class="fas fa-chart-pie"></i> Sales Report</h3>
+                        <div class="report-content" id="salesReport">
+                            <div class="empty-state">
+                                <p>Generate report to view data</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-line"></i> Monthly Activity Trend</h3>
+                        <div class="chart-placeholder" id="monthlyTrendChart">
+                            <p>Chart will appear here when report is generated</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3><i class="fas fa-chart-pie"></i> Books by Level Distribution</h3>
+                        <div class="chart-placeholder" id="levelDistributionChart">
+                            <p>Chart will appear here when report is generated</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cog"></i> System Settings</h2>
+                    <p>Configure system preferences and appearance</p>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-sidebar">
+                        <div class="settings-menu">
+                            <button class="settings-menu-item active" data-tab="appearance">
+                                <i class="fas fa-palette"></i> Appearance
+                            </button>
+                            <button class="settings-menu-item" data-tab="notifications">
+                                <i class="fas fa-bell"></i> Notifications
+                            </button>
+                            <button class="settings-menu-item" data-tab="security">
+                                <i class="fas fa-shield-alt"></i> Security
+                            </button>
+                            <button class="settings-menu-item" data-tab="system">
+                                <i class="fas fa-sliders-h"></i> System
+                            </button>
+                            <button class="settings-menu-item" data-tab="backup">
+                                <i class="fas fa-database"></i> Backup
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-content">
+                        <!-- Appearance Tab -->
+                        <div class="settings-tab active" id="appearanceTab">
+                            <h3><i class="fas fa-palette"></i> Appearance Settings</h3>
+                            
+                            <div class="theme-selector">
+                                <h4>Theme</h4>
+                                <div class="theme-options">
+                                    <div class="theme-option active" data-theme="light">
+                                        <div class="theme-preview light-theme"></div>
+                                        <span>Light Mode</span>
+                                    </div>
+                                    <div class="theme-option" data-theme="dark">
+                                        <div class="theme-preview dark-theme"></div>
+                                        <span>Dark Mode</span>
+                                    </div>
+                                    <div class="theme-option" data-theme="auto">
+                                        <div class="theme-preview auto-theme"></div>
+                                        <span>Auto (System)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layout-settings">
+                                <h4>Layout Settings</h4>
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="compactMode">
+                                        <span>Compact Mode</span>
+                                    </label>
+                                    <p class="setting-description">Reduce padding and spacing for more content</p>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="sidebarCollapsed">
+                                        <span>Collapse Sidebar by Default</span>
+                                    </label>
+                                    <p class="setting-description">Start with sidebar collapsed</p>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="animationsEnabled" checked>
+                                        <span>Enable Animations</span>
+                                    </label>
+                                    <p class="setting-description">Enable page transitions and animations</p>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" id="saveAppearanceBtn">
+                                <i class="fas fa-save"></i> Save Appearance Settings
+                            </button>
+                        </div>
+
+                        <!-- Notifications Tab -->
+                        <div class="settings-tab" id="notificationsTab">
+                            <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                            
+                            <div class="notification-settings">
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <span>Email Notifications</span>
+                                    </label>
+                                    <p class="setting-description">Receive email alerts for important events</p>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="systemNotifications" checked>
+                                        <span>System Notifications</span>
+                                    </label>
+                                    <p class="setting-description">Show in-app notifications</p>
+                                </div>
+                            </div>
+
+                            <div class="notification-types">
+                                <h4>Notification Types</h4>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notifyNewBooks" checked>
+                                        <span>New Book Added</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notifyNewUsers" checked>
+                                        <span>New User Registered</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notifyWishlistActivity" checked>
+                                        <span>Wishlist Activity</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notifyLowStock" checked>
+                                        <span>Low Stock Alerts</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" id="saveNotificationBtn">
+                                <i class="fas fa-save"></i> Save Notification Settings
+                            </button>
+                        </div>
+
+                        <!-- Security Tab -->
+                        <div class="settings-tab" id="securityTab">
+                            <h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
+                            
+                            <div class="security-settings">
+                                <div class="setting-item">
+                                    <label>Session Timeout (minutes)</label>
+                                    <input type="number" id="sessionTimeout" min="5" max="240" value="30">
+                                    <p class="setting-description">Automatically logout after inactivity</p>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="loginAlerts" checked>
+                                        <span>Login Alert Emails</span>
+                                    </label>
+                                    <p class="setting-description">Receive email when someone logs into your account</p>
+                                </div>
+                            </div>
+
+                            <div class="password-change">
+                                <h4>Change Password</h4>
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" placeholder="Enter current password">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" placeholder="Enter new password">
+                                    <div class="password-strength">
+                                        <span class="strength-text">Password strength: Very Weak</span>
+                                        <div class="strength-meter">
+                                            <div class="strength-bar weak"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm New Password</label>
+                                    <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                                </div>
+                                
+                                <button class="btn btn-primary" id="changePasswordBtn">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </div>
+                        </div>
+
+                <!-- In your System Settings tab -->
+                <div id="systemTab" class="settings-tab">
+                    <div class="settings-section">
+                        <h3>Display Settings</h3>
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <h4>Items Per Page</h4>
+                                <p>Number of items to show per page in lists</p>
+                            </div>
+                            <div class="setting-control">
+                                <select id="itemsPerPage" class="form-control">
+                                    <option value="6">6 items</option>
+                                    <option value="12" selected>12 items</option>
+                                    <option value="24">24 items</option>
+                                    <option value="48">48 items</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <h4>Default Book View</h4>
+                                <p>Default view for books list</p>
+                            </div>
+                            <div class="setting-control">
+                                <select id="defaultBookView" class="form-control">
+                                    <option value="grid">Grid View</option>
+                                    <option value="list">List View</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <h4>Date Format</h4>
+                                <p>How dates should be displayed</p>
+                            </div>
+                            <div class="setting-control">
+                                <select id="dateFormat" class="form-control">
+                                    <option value="relative">Relative (e.g., 2 days ago)</option>
+                                    <option value="us">US Format (MM/DD/YYYY)</option>
+                                    <option value="euro">European Format (DD/MM/YYYY)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <div class="setting-label">
+                                <h4>Time Format</h4>
+                                <p>How times should be displayed</p>
+                            </div>
+                            <div class="setting-control">
+                                <select id="timeFormat" class="form-control">
+                                    <option value="12h">12-hour format</option>
+                                    <option value="24h">24-hour format</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-actions">
+                            <button id="saveSystemBtn" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save System Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                        <!-- Backup Tab -->
+                        <div class="settings-tab" id="backupTab">
+                            <h3><i class="fas fa-database"></i> Backup & Restore</h3>
+                            
+                            <div class="backup-settings">
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="autoBackup" checked>
+                                        <span>Automatic Backups</span>
+                                    </label>
+                                    <p class="setting-description">Create automatic backups daily</p>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>Backup Retention Period</label>
+                                    <select id="backupRetention">
+                                        <option value="7">7 days</option>
+                                        <option value="14">14 days</option>
+                                        <option value="30" selected>30 days</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="backup-actions">
+                                <h4>Manual Actions</h4>
+                                <div class="action-buttons">
+                                    <button class="btn btn-primary" id="createBackupBtn">
+                                        <i class="fas fa-save"></i> Create Backup Now
+                                    </button>
+                                    <button class="btn btn-secondary" id="exportDataBtn">
+                                        <i class="fas fa-download"></i> Export Data
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="backup-history">
+                                <h4>Recent Backups</h4>
+                                <div class="backup-list" id="backupList">
+                                    <div class="empty-state">
+                                        <p>No backups created yet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Book Modal -->
+    <div id="addBookModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Add New Book</h2>
+                <button class="modal-close" id="closeAddModal">&times;</button>
+            </div>
+            <form id="addBookForm" class="modal-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="title"><i class="fas fa-heading"></i> Book Title *</label>
+                        <input type="text" id="title" placeholder="Enter book title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="author"><i class="fas fa-user-edit"></i> Author *</label>
+                        <input type="text" id="author" placeholder="Enter author name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="isbn"><i class="fas fa-barcode"></i> Course Code *</label>
+                        <input type="text" id="isbn" placeholder="e.g., CSC 101" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="price"><i class="fas fa-tag"></i> Price (₦) *</label>
+                        <input type="number" id="price" placeholder="Enter price" min="0" step="100" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity"><i class="fas fa-copy"></i> Quantity *</label>
+                        <input type="number" id="quantity" placeholder="Enter quantity" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="level"><i class="fas fa-graduation-cap"></i> Level</label>
+                        <select id="level">
+                            <option value="">Select Level</option>
+                            <option value="100">100 Level</option>
+                            <option value="200">200 Level</option>
+                            <option value="300">300 Level</option>
+                            <option value="400">400 Level</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="description"><i class="fas fa-align-left"></i> Description (Optional)</label>
+                    <textarea id="description" placeholder="Enter book description..." rows="4"></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Book
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelAddBook">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Book Modal -->
+    <div id="editBookModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> Edit Book</h2>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <form id="editBookForm" class="modal-form">
+                <input type="hidden" id="editBookId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="editTitle">Book Title *</label>
+                        <input type="text" id="editTitle" placeholder="Book Title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAuthor">Author *</label>
+                        <input type="text" id="editAuthor" placeholder="Author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIsbn">Course Code *</label>
+                        <input type="text" id="editIsbn" placeholder="Course Code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrice">Price (₦) *</label>
+                        <input type="number" id="editPrice" placeholder="Price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editQuantity">Quantity *</label>
+                        <input type="number" id="editQuantity" placeholder="Quantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLevel">Level</label>
+                        <select id="editLevel">
+                            <option value="">Select Level</option>
+                            <option value="100">100 Level</option>
+                            <option value="200">200 Level</option>
+                            <option value="300">300 Level</option>
+                            <option value="400">400 Level</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="editDescription">Description</label>
+                    <textarea id="editDescription" placeholder="Book description..." rows="4"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-danger" id="deleteBookBtn">
+                        <i class="fas fa-trash"></i> Delete Book
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" id="cancelEditBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Book Modal -->
+    <div id="viewBookModal" class="modal hidden">
+        <div class="modal-content wide-modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-eye"></i> Book Details</h2>
+                <button class="modal-close" id="closeViewModal">&times;</button>
+            </div>
+            <div class="book-details-modal">
+                <div class="book-details-header">
+                    <div class="book-cover-large">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="book-info">
+                        <h3 id="viewTitle">Book Title</h3>
+                        <p class="book-author" id="viewAuthor">Author: Unknown</p>
+                        <p class="book-code" id="viewIsbn">Course Code: N/A</p>
+                        <div class="book-meta">
+                            <span class="badge level-badge" id="viewLevel">General Level</span>
+                            <span class="badge status-badge" id="viewStatus">In Stock</span>
+                            <span class="price-tag" id="viewPrice">₦0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-details-body">
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Quantity Available</span>
+                            <span class="detail-value" id="viewQuantity">0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Total Value</span>
+                            <span class="detail-value" id="viewTotalValue">₦0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Added On</span>
+                            <span class="detail-value" id="viewCreatedAt">N/A</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Last Updated</span>
+                            <span class="detail-value" id="viewUpdatedAt">N/A</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Wishlisted By</span>
+                            <span class="detail-value" id="viewWishlistCount">0 users</span>
+                        </div>
+                    </div>
+                    
+                    <div class="book-description-section">
+                        <h4><i class="fas fa-align-left"></i> Description</h4>
+                        <p id="viewDescription" class="description-text">No description available.</p>
+                    </div>
+                    
+                    <div class="book-actions-section">
+                        <button class="btn btn-secondary" id="editFromViewBtn">
+                            <i class="fas fa-edit"></i> Edit Book
+                        </button>
+                        <button class="btn btn-primary" id="closeViewBtn">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="Admin.js"></script>
+      <script src="admin.js"></script>
 </body>
 </html>

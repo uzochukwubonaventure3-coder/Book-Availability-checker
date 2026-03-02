@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Secure Portal</title>
+  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="main-container">
+    <div class="branding-section">
+      <div class="branding-content">
+        <div class="logo">
+          <i class="fas fa-shield-alt"></i>
+          <span>SecurePortal</span>
+        </div>
+        <h1>Welcome Back</h1>
+        <p>Sign in to access your personalized dashboard and continue your journey with us.</p>
+        <div class="features">
+          <div class="feature">
+            <i class="fas fa-lock"></i>
+            <span>Secure & Encrypted</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-bolt"></i>
+            <span>Fast Authentication</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-user-shield"></i>
+            <span>Role-Based Access</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side with form -->
+    <div class="form-section">
+      <div class="form-container">
+        <div class="form-header">
+          <h2>Sign In to Your Account</h2>
+          <p>Enter your credentials to continue</p>
+        </div>
+
+        <form id="loginForm" class="form">
+          <div class="input-group">
+            <label for="email">
+              <i class="fas fa-envelope"></i> Email Address
+            </label>
+            <input type="email" id="email" placeholder="Enter your email" required />
+          </div>
+
+          <div class="input-group">
+            <label for="password">
+              <i class="fas fa-key"></i> Password
+            </label>
+            <div class="password-wrapper">
+              <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password" />
+              <button type="button" class="toggle-password" id="togglePassword">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="password-options">
+              <label class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                <span>Remember me</span>
+              </label>
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <span class="btn-text">Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+          <div class="divider">
+            <span>Or continue with</span>
+          </div>
+
+          <div class="social-login">
+            <button type="button" class="social-btn google">
+              <i class="fab fa-google"></i>
+              <span>Google</span>
+            </button>
+            <button type="button" class="social-btn github">
+              <i class="fab fa-github"></i>
+              <span>GitHub</span>
+            </button>
+          </div>
+
+          <div class="switch">
+            Don't have an account?
+            <a href="signup.html" class="switch-link">Create Account</a>
+          </div>
+
+          <div id="loginMessage" class="message"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

@@ -3,48 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student Portal - UNN BookStore</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <nav>
-        <span>
-            <img src="/images/UNN LOGO.jpeg" class="unn-logo">
-            <span class="unn-text">
-                University of Nigeria Nsukka
-            </span>
-        </span>
-        <div>
-            <ul>
-                <li>
-                    <a href="/Student-DahBord/login-form/login.html">Login</a>
-                </li>
-                <li>
-                    <a href="">Profile</a>
-                </li>
-                <li>
-                    <a href="mailto:bonaventurechidalu222@gmail.com">Contact-us</a>
-                </li>
-            </ul>
+<body class="light-mode">
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-book"></i>
+      <span>UNN BookStore</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="#" class="nav-link" data-section="books"><i class="fas fa-book"></i> Books</a></li>
+      <li><a href="#" class="nav-link" data-section="wishlist"><i class="fas fa-heart"></i> Wishlist <span class="wishlist-count">0</span></a></li>
+      <li><a href="#" class="nav-link" data-section="about"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="mailto:bookstore@unn.edu.ng" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="theme-toggle">
+        <button id="themeToggle" class="theme-btn">
+          <i class="fas fa-moon"></i>
+          <span>Dark Mode</span>
+        </button>
+      </div>
+      <div class="view-toggle">
+        <button id="viewToggle" class="view-btn" title="Toggle View">
+          <i class="fas fa-th"></i>
+        </button>
+      </div>
+      <div class="user-info">
+        <i class="fas fa-user-graduate"></i>
+        <span class="username">Student Portal</span>
+      </div>
+      <button class="logout-btn" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Log Out
+      </button>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="homeSection" class="section active">
+    <div class="hero-section">
+      <div class="hero-content">
+        <h1>Welcome to Book Availability Checker</h1>
+        <p class="hero-subtitle">Your Gateway to Academic Excellence</p>
+        <p class="hero-description">
+          Access all your required course textbooks, reference materials, and study resources 
+          in one convenient digital platform. Designed specifically for University of Nigeria 
+          students to enhance learning and academic success.
+        </p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <i class="fas fa-book-open"></i>
+            <div>
+              <h3>1,250+</h3>
+              <p>Academic Titles</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <div>
+              <h3>40,000+</h3>
+              <p>Active Students</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-award"></i>
+            <div>
+              <h3>100%</h3>
+              <p>Curriculum Aligned</p>
+            </div>
+          </div>
         </div>
-    </nav>
-
-    <h1>
-        Book Availability Checker
-    </h1>
-
-    <div class="searchbar-container">
-        <input type="search" class="input-search" placeholder="search for books by course code" >
+        <button class="cta-button" data-section="books">
+          <i class="fas fa-search"></i> Browse Books
+        </button>
+      </div>
+      <div class="hero-image">
+        <div class="floating-book">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+      </div>
     </div>
 
-    <footer>
-            University of Nigeria Nsukka Library ©2025
-    </footer>
-
-    <div class="books-wraps">
-
+    <div class="features-section">
+      <h2>Why Choose UNN BookStore?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>Smart Search</h3>
+          <p>Find books by course code, title, or author with our intelligent search system</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Mobile Friendly</h3>
+          <p>Access your books anytime, anywhere on any device</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bookmark"></i>
+          </div>
+          <h3>Personal Wishlist</h3>
+          <p>Save books for later and get notified when available</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3>24/7 Access</h3>
+          <p>Round-the-clock availability of all academic materials</p>
+        </div>
+      </div>
     </div>
-    <script src="script.js"></script>
+  </section>
+
+  <!-- Books Section -->
+  <section id="booksSection" class="section">
+    <div class="section-header">
+      <div class="header-content">
+        <h2><i class="fas fa-book"></i> Available Books</h2>
+        <p class="section-subtitle">Browse our comprehensive collection of academic resources</p>
+      </div>
+      <div class="header-actions">
+        <div class="view-controls">
+          <button class="view-btn active" data-view="grid" title="Grid View">
+            <i class="fas fa-th"></i>
+          </button>
+          <button class="view-btn" data-view="list" title="List View">
+            <i class="fas fa-list"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-section">
+      <div class="searchbar">
+        <div class="search-input-wrapper">
+          <i class="fas fa-search"></i>
+          <input type="search" id="searchInput" placeholder="Search by course code, title, or author...">
+          <button class="search-btn">Search</button>
+        </div>
+        
+        <div class="filter-section">
+          <select id="yearFilter" class="year-dropdown">
+            <option value="all">All Levels</option>
+            <option value="100">100 Level</option>
+            <option value="200">200 Level</option>
+            <option value="300">300 Level</option>
+            <option value="400">400 Level</option>
+          </select>
+          
+          <select id="categoryFilter" class="category-dropdown">
+            <option value="all">All Categories</option>
+            <option value="science">Science & Technology</option>
+            <option value="arts">Arts & Humanities</option>
+            <option value="business">Business & Economics</option>
+            <option value="law">Law</option>
+            <option value="medicine">Medicine</option>
+          </select>
+          
+          <button class="clear-btn">
+            <i class="fas fa-redo"></i> Clear Filters
+          </button>
+        </div>
+      </div>
+      
+      <div class="quick-links">
+        <h3>Popular Searches:</h3>
+        <div class="link-chips">
+          <span class="chip">CSC 101</span>
+          <span class="chip">MTH 101</span>
+          <span class="chip">PHY 101</span>
+          <span class="chip">CHM 101</span>
+          <span class="chip">GST 101</span>
+          <span class="chip">BIO 101</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="books-container-wrapper">
+      <div class="results-info">
+        <span class="results-count">Loading books...</span>
+        <div class="sort-options">
+          <select id="sortFilter" class="sort-dropdown">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="title-asc">Title (A-Z)</option>
+            <option value="title-desc">Title (Z-A)</option>
+            <option value="price-low">Price (Low to High)</option>
+            <option value="price-high">Price (High to Low)</option>
+          </select>
+        </div>
+      </div>
+      
+      <div id="booksContainer" class="books-container grid-view">
+        <!-- Books will be dynamically inserted here -->
+      </div>
+      
+      <div class="pagination-container">
+        <div class="pagination" id="pagination">
+          <!-- Pagination will be dynamically inserted here -->
+        </div>
+        <div class="page-size">
+          <label>Items per page:</label>
+          <select id="pageSize">
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="48">48</option>
+            <option value="96">96</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wishlist Section -->
+  <section id="wishlistSection" class="section">
+    <div class="section-header">
+      <h2><i class="fas fa-heart"></i> My Wishlist</h2>
+      <p class="section-subtitle">Books you've saved for later</p>
+    </div>
     
+    <div id="wishlistContainer" class="wishlist-container">
+      <div class="empty-wishlist">
+        <i class="fas fa-heart"></i>
+        <h3>Your wishlist is empty</h3>
+        <p>Start adding books to your wishlist!</p>
+        <button class="browse-btn" data-section="books">
+          <i class="fas fa-book"></i> Browse Books
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="aboutSection" class="section">
+    <div class="about-container">
+      <div class="about-header">
+        <h2><i class="fas fa-info-circle"></i> About UNN BookStore</h2>
+        <p class="about-subtitle">Transforming Education Through Digital Access</p>
+      </div>
+      
+      <div class="about-content">
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-university"></i>
+          </div>
+          <h3>Our Mission</h3>
+          <p>To provide University of Nigeria students with seamless access to all required academic materials, fostering an environment of learning and academic excellence.</p>
+        </div>
+        
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-bullseye"></i>
+          </div>
+          <h3>Our Vision</h3>
+          <p>To become the leading digital academic resource platform in Nigeria, revolutionizing how students access and interact with educational materials.</p>
+        </div>
+        
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-hands-helping"></i>
+          </div>
+          <h3>Our Commitment</h3>
+          <p>We are committed to providing 100% curriculum-aligned resources, timely updates, and excellent support to enhance the academic journey of every UNN student.</p>
+        </div>
+      </div>
+      
+      <div class="team-section">
+        <h3>Managed by Academic Resource Center</h3>
+        <div class="team-members">
+          <div class="member">
+            <div class="member-avatar">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <h4>Prof. James Okoro</h4>
+            <p>Director</p>
+          </div>
+          <div class="member">
+            <div class="member-avatar">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <h4>Dr. Sarah Johnson</h4>
+            <p>Content Manager</p>
+          </div>
+          <div class="member">
+            <div class="member-avatar">
+              <i class="fas fa-user-cog"></i>
+            </div>
+            <h4>Engr. Bonaventure Chidalu</h4>
+            <p>Technical Lead</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fas fa-book"></i> UNN BookStore</h3>
+        <p>Official digital textbook repository for University of Nigeria, Nsukka students.</p>
+        <div class="contact-info">
+          <p><i class="fas fa-map-marker-alt"></i> Nsukka, Enugu State, Nigeria</p>
+          <p><i class="fas fa-clock"></i> 24/7 Digital Access</p>
+          <p><i class="fas fa-phone"></i> +234 810 123 4567</p>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#" data-section="home">Home</a></li>
+          <li><a href="#" data-section="books">Books Catalog</a></li>
+          <li><a href="#" data-section="wishlist">My Wishlist</a></li>
+          <li><a href="#" data-section="about">About Us</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Academic Resources</h4>
+        <ul>
+          <li><a href="#">Course Materials</a></li>
+          <li><a href="#">Past Questions</a></li>
+          <li><a href="#">Research Papers</a></li>
+          <li><a href="#">Study Guides</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Connect With Us</h4>
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/17eAfsQ71y/?mibextid=wwXlfr" class="social-link"><i class="fab fa-facebook"></i></a>
+          <a href="https://x.com/bonababy95992?s=21" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/bonaventurechidalu?igh=aDB3tb3N3aG4wOTlm&utm_source=qr" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <div class="newsletter">
+          <p>Subscribe to updates</p>
+          <div class="newsletter-input">
+            <input type="email" placeholder="Your email">
+            <button><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 University of Nigeria Nsukka BookStore. All rights reserved.</p>
+      <p>For students, by students.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
