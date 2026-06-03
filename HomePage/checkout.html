@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - UNN BookStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body class="light-mode">
+    <!-- Simplified Checkout Navbar -->
+    <nav class="checkout-navbar">
+        <div class="checkout-nav-left">
+            <a href="index.html" class="back-to-shop">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Shop</span>
+            </a>
+            <div class="checkout-logo">
+                <i class="fas fa-book"></i>
+                <span>UNN BookStore</span>
+            </div>
+        </div>
+        
+        <div class="checkout-nav-right">
+            <div class="secure-badge-nav">
+                <i class="fas fa-lock"></i>
+                <span>Secure Checkout</span>
+            </div>
+            <div class="theme-toggle">
+                <button id="themeToggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-graduate"></i>
+                <span class="username" id="username">Student</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Progress -->
+    <div class="checkout-progress">
+        <div class="progress-steps">
+            <div class="step completed">
+                <div class="step-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="step-label">
+                    <span class="step-name">Cart</span>
+                    <span class="step-status">Completed</span>
+                </div>
+                <div class="step-connector"></div>
+            </div>
+            
+            <div class="step active">
+                <div class="step-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="step-label">
+                    <span class="step-name">Checkout</span>
+                    <span class="step-status">In Progress</span>
+                </div>
+                <div class="step-connector"></div>
+            </div>
+            
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="step-label">
+                    <span class="step-name">Confirmation</span>
+                    <span class="step-status">Pending</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="checkout-main">
+        <div class="checkout-container">
+            <div class="checkout-header">
+                <h1>Complete Your Order</h1>
+                <p class="checkout-subtitle">You're just a few steps away from completing your purchase</p>
+            </div>
+
+            <div class="checkout-grid" id="checkoutContent">
+                <!-- Checkout content will be dynamically loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+        <div class="trust-badge">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+                <strong>Secure Payment</strong>
+                <span>256-bit SSL Encrypted</span>
+            </div>
+        </div>
+        <div class="trust-badge">
+            <i class="fas fa-truck"></i>
+            <div>
+                <strong>Free Delivery</strong>
+                <span>On all orders</span>
+            </div>
+        </div>
+        <div class="trust-badge">
+            <i class="fas fa-undo-alt"></i>
+            <div>
+                <strong>Easy Returns</strong>
+                <span>7-day return policy</span>
+            </div>
+        </div>
+        <div class="trust-badge">
+            <i class="fas fa-headset"></i>
+            <div>
+                <strong>24/7 Support</strong>
+                <span>We're here to help</span>
+            </div>
+        </div>
+    </div>
+
+    <footer class="checkout-footer">
+        <p>&copy; 2025 UNN BookStore. All rights reserved.</p>
+        <div class="footer-payment-icons">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-paypal"></i>
+            <img src="https://paystack.com/brand-assets/Paystack_Logo.png" alt="Paystack" class="paystack-logo">
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

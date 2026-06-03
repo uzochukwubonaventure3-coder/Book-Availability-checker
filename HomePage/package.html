@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packages - UNN BookStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-mode">
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-book"></i>
+            <span>UNN BookStore</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="index.html#books"><i class="fas fa-book"></i> Books</a></li>
+            <li><a href="package.html" class="active"><i class="fas fa-gift"></i> Packages</a></li>
+            <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cartCount">0</span></a></li>
+        </ul>
+
+        <div class="nav-right">
+            <div class="theme-toggle">
+                <button id="themeToggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-graduate"></i>
+                <span class="username" id="username">Student</span>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
+        </div>
+    </nav>
+
+    <main class="packages-page">
+        <div class="packages-header">
+            <h1>Student Packages</h1>
+            <p>Choose the perfect package for your academic needs</p>
+        </div>
+
+        <div class="packages-grid" id="packagesGrid">
+            <!-- Packages will be loaded here -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!-- Same footer as index.html -->
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

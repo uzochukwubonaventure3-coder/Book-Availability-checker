@@ -95,7 +95,7 @@ router.post("/change-password", auth, async (req, res) => {
 
     // Update password
     user.password = hashedPassword;
-    user.updatedAt = new Date(d);
+    user.updatedAt = new Date();
     await user.save();
 
     res.json({ 

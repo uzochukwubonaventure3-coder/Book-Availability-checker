@@ -4,6 +4,11 @@ const connectDB = require("./db");
 const authRoutes = require("./authRoute");
 const adminRoutes = require("./adminRoute");
 const studentRoutes = require("./studentroute");
+const cartRoutes = require("./cartRoutes");
+const packageRoutes = require("./packageRoutes");
+const checkoutRoutes = require("./checkoutRoutes");
+const studentOrderRoutes = require("./studentOrderRoutes");
+const adminOrderRoutes = require("./adminOrderRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -40,6 +45,11 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/student", studentRoutes);
+app.use("/api/cart",  cartRoutes); // Protected cart routes
+app.use("/api/packages",  packageRoutes);
+app.use("/api/checkout", checkoutRoutes); // Webhook doesn't need auth
+app.use("/api/student",  studentOrderRoutes);
+app.use("/api/admin",  adminOrderRoutes); // Admin routes
 
 // Health check endpoint
 app.get("/health", (req, res) => {
