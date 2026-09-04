@@ -4,8 +4,8 @@ const Book = require("./BookModel");
 const Wishlist = require("./WishlistModel"); // You'll need to create this
 const auth = require("./authMiddleware");
 
-// Student – Get all books (Protected)
-router.get("/books", auth, async (req, res) => {
+// Public catalog browsing
+router.get("/books", async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
     res.json(books);
@@ -14,8 +14,8 @@ router.get("/books", auth, async (req, res) => {
   }
 });
 
-// Student – Search books
-router.get("/search", auth, async (req, res) => {
+// Public catalog search
+router.get("/search", async (req, res) => {
   try {
     const { q } = req.query;
 

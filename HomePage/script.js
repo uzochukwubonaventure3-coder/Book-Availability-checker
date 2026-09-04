@@ -24,15 +24,6 @@ const Utils = {
     // Check if user is authenticated
     isAuthenticated: () => !!localStorage.getItem(CONFIG.TOKEN_STORAGE_KEY),
     
-    // Redirect to login if not authenticated
-    requireAuth: () => {
-        if (!Utils.isAuthenticated()) {
-            window.location.href = '../Student-DahBord/login.html';
-            return false;
-        }
-        return true;
-    },
-    
     // Get user info from token
     getUserInfo: () => {
         const token = Utils.getToken();
@@ -571,9 +562,6 @@ function initializePackagesPage() {
 
 // Update the initialize function to handle packages page
 document.addEventListener("DOMContentLoaded", () => {
-    // Check authentication
-    if (!Utils.requireAuth()) return;
-
     // Initialize state
     window.currentPage = 1;
     window.pageSize = parseInt(localStorage.getItem(CONFIG.PAGE_SIZE_KEY)) || CONFIG.DEFAULT_PAGE_SIZE;
@@ -796,13 +784,6 @@ let allBooks = [];
 
 const BooksManager = {
     loadBooks: async () => {
-        const token = Utils.getToken();
-        
-        if (!token) {
-            window.location.href = "../Student-DahBord/login.html";
-            return;
-        }
-
         BooksManager.showLoadingSkeleton();
         
         try {
@@ -2624,9 +2605,6 @@ function handleLogout() {
 
 // ==================== INITIALIZATION ====================
 document.addEventListener("DOMContentLoaded", () => {
-    // Check authentication
-    if (!Utils.requireAuth()) return;
-
     // Initialize state
     window.currentPage = 1;
     window.pageSize = parseInt(localStorage.getItem(CONFIG.PAGE_SIZE_KEY)) || CONFIG.DEFAULT_PAGE_SIZE;
