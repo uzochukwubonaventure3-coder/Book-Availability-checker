@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!token) {
         showNotification("Access Denied", "Please login to continue", "error");
         setTimeout(() => {
-            window.location.href = "../Student-dahbord/login.html";
+            window.location.href = "../Student-DahBord/login.html";
         }, 2000);
         return;
     }
@@ -45,7 +45,7 @@ let state = {
 };
 
 // API UTILITIES
-const API_BASE = "http://localhost:5000/api/admin";
+const API_BASE = "/api/admin";
 
 async function apiFetch(url, options = {}) {
     const token = localStorage.getItem("token");
@@ -71,7 +71,7 @@ async function apiFetch(url, options = {}) {
         if (response.status === 401) {
             showNotification("Session Expired", "Please login again", "error");
             setTimeout(() => {
-                window.location.href = "../Student-dahbord/login.html";
+                window.location.href = "../Student-DahBord/login.html";
             }, 2000);
             throw new Error("Unauthorized");
         }
@@ -106,7 +106,7 @@ async function apiFetch(url, options = {}) {
         // Check network errors
         if (error.name === 'TypeError' && error.message.includes('fetch')) {
             console.error('Network error detected.');
-            throw new Error('Cannot connect to server. Make sure the backend is running on http://localhost:5000');
+            throw new Error('Cannot connect to the server. Please try again.');
         }
         
         throw error;
@@ -116,7 +116,7 @@ async function apiFetch(url, options = {}) {
 async function testApiConnection() {
     try {
         console.log('Testing API connection...');
-        const response = await fetch(`${API_BASE}/health`);
+        const response = await fetch('/health');
         console.log('API health check:', response.status);
         return response.ok;
     } catch (error) {
@@ -132,7 +132,7 @@ async function initAdmin() {
     // Test API connection first
     const apiConnected = await testApiConnection();
     if (!apiConnected) {
-        showNotification("Connection Error", "Cannot connect to server. Please make sure the backend is running on http://localhost:5000", "error");
+        showNotification("Connection Error", "Cannot connect to the server. Please try again.", "error");
     }
     
     // Setup all event listeners
@@ -378,7 +378,7 @@ async function handleLogout() {
         
         // Redirect after delay
         setTimeout(() => {
-            window.location.href = "../Student-dahbord/login.html";
+            window.location.href = "../Student-DahBord/login.html";
         }, 1500);
         
     } catch (error) {
@@ -1547,7 +1547,7 @@ window.removeFromWishlist = async function(itemId) {
             } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
                 showNotification("Session Expired", "Please login again", "error");
                 setTimeout(() => {
-                    window.location.href = "../Student-dahbord/login.html";
+                    window.location.href = "../Student-DahBord/login.html";
                 }, 2000);
             } else {
                 showNotification("Error", error.message || "Failed to remove item from wishlist", "error");

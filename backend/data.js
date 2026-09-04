@@ -1,6 +1,10 @@
 
 async function loadBooks() {
-  const res = await fetch('http://localhost:5000/books');
+  const res = await fetch('/api/student/books', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+    }
+  });
   const books = await res.json();
 
   const list = document.getElementById('bookList');

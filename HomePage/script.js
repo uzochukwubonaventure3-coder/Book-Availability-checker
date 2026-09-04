@@ -1,12 +1,6 @@
 // ==================== CONFIGURATION ====================
 const CONFIG = {
-    API_BASE_URL: (() => {
-        const host = window.location.hostname;
-        if (host === 'localhost' || host === '127.0.0.1') {
-            return 'http://localhost:5000/api';
-        }
-        return '/api';
-    })(),
+    API_BASE_URL: '/api',
     
     PAYSTACK_PUBLIC_KEY: 'pk_test_your_public_key_here', // Replace with your actual key
     
@@ -33,7 +27,7 @@ const Utils = {
     // Redirect to login if not authenticated
     requireAuth: () => {
         if (!Utils.isAuthenticated()) {
-            window.location.href = '../Student-dahbord/login.html';
+            window.location.href = '../Student-DahBord/login.html';
             return false;
         }
         return true;
@@ -201,7 +195,7 @@ const Utils = {
                 Utils.showNotification('Session expired. Please login again.', 'error');
                 setTimeout(() => {
                     localStorage.removeItem(CONFIG.TOKEN_STORAGE_KEY);
-                    window.location.href = '../Student-dahbord/login.html';
+                    window.location.href = '../Student-DahBord/login.html';
                 }, 2000);
                 return null;
             }
@@ -805,7 +799,7 @@ const BooksManager = {
         const token = Utils.getToken();
         
         if (!token) {
-            window.location.href = "../Student-dahbord/login.html";
+            window.location.href = "../Student-DahBord/login.html";
             return;
         }
 
@@ -2623,7 +2617,7 @@ function handleLogout() {
         Utils.showNotification("Logged out successfully", "success");
         
         setTimeout(() => {
-            window.location.href = "../Student-dahbord/login.html";
+            window.location.href = "../Student-DahBord/login.html";
         }, 1000);
     }
 }

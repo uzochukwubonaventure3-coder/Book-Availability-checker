@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
     submitBtn.disabled = true;
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.className = 'message success';
 
         // Auto-login after successful signup
-        const loginRes = await fetch("http://localhost:5000/api/auth/login", {
+        const loginRes = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
@@ -379,7 +379,7 @@ document.head.appendChild(style);document.addEventListener('DOMContentLoaded', f
     submitBtn.style.opacity = '0.8';
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -396,7 +396,7 @@ document.head.appendChild(style);document.addEventListener('DOMContentLoaded', f
 
         // Auto-login after successful signup
         try {
-          const loginRes = await fetch("http://localhost:5000/api/auth/login", {
+          const loginRes = await fetch("/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),

@@ -13,9 +13,6 @@ require("dotenv").config();
 
 const app = express();
 
-// Connect to Database
-connectDB();
-
 // CORS Configuration
 app.use(cors({
   origin: [
@@ -24,8 +21,9 @@ app.use(cors({
     "http://127.0.0.1:5503", 
     "http://localhost:5500",
     "http://localhost:5501",
-    "http://localhost:5503" 
-  ],
+    "http://localhost:5503",
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept"],
   credentials: true
@@ -34,6 +32,20 @@ app.use(cors({
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Ensure database-backed routes wait for a connection in serverless invocations.
+app.use(async (req, res, next) => {
+  if (req.path === "/health") {
+    return next();
+  }
+
+  try {
+    await connectDB();
+    next();
+  } catch {
+    res.status(503).json({ error: "Database unavailable" });
+  }
+});
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -77,10 +89,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`UNN BookStore Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
-});
+module.exports = app;
+
+// Vercel imports the app as a serverless function; local development runs it directly.
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`UNN BookStore Server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+    console.log(`Health check: http://localhost:${PORT}/health`);
+  });
+}
